@@ -899,7 +899,7 @@ function drawLantern(ctx, W, H, answers) {
   ctx.fillRect(0, 0, W, H);
 
   // Atmospheric glow
-  const glow = ctx.createRadialGradient(W/2, H*0.44, 0, W/2, H*0.44, W*0.65);
+  const glow = ctx.createRadialGradient(W/2, H*0.48, 0, W/2, H*0.48, W*0.65);
   glow.addColorStop(0,   'rgba(245,155,35,0.16)');
   glow.addColorStop(0.4, 'rgba(200,100,20,0.06)');
   glow.addColorStop(1,   'rgba(0,0,0,0)');
@@ -912,25 +912,21 @@ function drawLantern(ctx, W, H, answers) {
   // ── Title ──
   ctx.textAlign = 'center';
   ctx.fillStyle = '#f5a323';
-  ctx.font = `800 ${s(72)}px 'Shippori Mincho B1', serif`;
-  ctx.fillText('Value Lantern', W/2, s(120));
-
-  ctx.fillStyle = 'rgba(253,244,224,0.35)';
-  ctx.font = `300 ${s(28)}px 'Noto Sans JP', sans-serif`;
-  ctx.fillText('バリューランタン', W/2, s(162));
+  ctx.font = `800 ${s(82)}px 'Shippori Mincho B1', serif`;
+  ctx.fillText('Value Lantern', W/2, s(96));
 
   // ── Lantern geometry ──
-  const lW  = W * 0.80;
-  const lH  = H * 0.52;
+  const lW  = W * 0.82;
+  const lH  = H * 0.68;
   const lX  = (W - lW) / 2;
-  const lY  = H * 0.12;
+  const lY  = H * 0.14;
   const lR  = s(20);
   const secH = lH / 4;
 
   // Chain above lantern
   ctx.beginPath();
-  ctx.moveTo(W/2, s(175));
-  ctx.lineTo(W/2, lY - s(18));
+  ctx.moveTo(W/2, s(112));
+  ctx.lineTo(W/2, lY - s(12));
   ctx.setLineDash([s(5), s(4)]);
   ctx.strokeStyle = 'rgba(201,149,42,0.45)';
   ctx.lineWidth = s(2.5);
@@ -987,32 +983,32 @@ function drawLantern(ctx, W, H, answers) {
       ctx.stroke();
     }
 
-    const padX = lX + s(32);
-    const maxW = lW - s(64);
+    const padX = lX + s(36);
+    const maxW = lW - s(72);
 
     // Section color dot
     ctx.beginPath();
-    ctx.arc(padX - s(14), secY + s(46), s(6), 0, Math.PI*2);
+    ctx.arc(padX - s(16), secY + s(52), s(7), 0, Math.PI*2);
     ctx.fillStyle = sec.color;
     ctx.fill();
 
     // nameEn
     ctx.textAlign = 'left';
     ctx.fillStyle = sec.color;
-    ctx.font = `500 ${s(22)}px 'Noto Sans JP', sans-serif`;
+    ctx.font = `500 ${s(32)}px 'Noto Sans JP', sans-serif`;
     ctx.globalAlpha = 0.9;
-    ctx.fillText(sec.nameEn, padX, secY + s(50));
+    ctx.fillText(sec.nameEn, padX, secY + s(58));
     ctx.globalAlpha = 1;
 
     // nameJa
     ctx.fillStyle = 'rgba(253,244,224,0.9)';
-    ctx.font = `700 ${s(38)}px 'Shippori Mincho B1', serif`;
-    ctx.fillText(sec.nameJa, padX, secY + s(96));
+    ctx.font = `700 ${s(60)}px 'Shippori Mincho B1', serif`;
+    ctx.fillText(sec.nameJa, padX, secY + s(120));
 
     // Separator line under header
     ctx.beginPath();
-    ctx.moveTo(padX, secY + s(112));
-    ctx.lineTo(lX + lW - s(32), secY + s(112));
+    ctx.moveTo(padX, secY + s(138));
+    ctx.lineTo(lX + lW - s(32), secY + s(138));
     ctx.strokeStyle = 'rgba(201,149,42,0.2)';
     ctx.lineWidth = s(1);
     ctx.stroke();
@@ -1020,13 +1016,13 @@ function drawLantern(ctx, W, H, answers) {
     // User text
     const text = answers[sec.key];
     if (text) {
-      ctx.fillStyle = 'rgba(253,244,224,0.80)';
-      ctx.font = `300 ${s(28)}px 'Noto Sans JP', sans-serif`;
-      wrapText(ctx, text, padX, secY + s(148), maxW, s(42), 3);
+      ctx.fillStyle = 'rgba(253,244,224,0.85)';
+      ctx.font = `300 ${s(48)}px 'Noto Sans JP', sans-serif`;
+      wrapText(ctx, text, padX, secY + s(186), maxW, s(64), 3);
     } else {
       ctx.fillStyle = 'rgba(253,244,224,0.18)';
-      ctx.font = `300 ${s(24)}px 'Noto Sans JP', sans-serif`;
-      ctx.fillText('—', padX, secY + s(148));
+      ctx.font = `300 ${s(40)}px 'Noto Sans JP', sans-serif`;
+      ctx.fillText('—', padX, secY + s(186));
     }
   });
 
