@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Value Lantern</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@400;700;800&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #080612;
+  --bg2:       #0f0c1a;
+  --amber:     #f5a323;
+  --amber-lt:  #ffcc55;
+  --flame:     #e8621a;
+  --gold:      #c9952a;
+  --cream:     #fdf4e0;
+  --cream-60:  rgba(253,244,224,0.6);
+  --cream-30:  rgba(253,244,224,0.3);
+  --cream-15:  rgba(253,244,224,0.15);
+  --card:      rgba(245,163,35,0.07);
+  --border:    rgba(245,163,35,0.2);
+  --border-dim:rgba(245,163,35,0.1);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{
+  width:100%;min-height:100vh;
+  background:var(--bg);
+  color:var(--cream);
+  font-family:'Noto Sans JP',sans-serif;
+  font-weight:300;
+  line-height:1.75;
+  overflow-x:hidden;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(245,163,35,0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 80% at 30% 80%, rgba(232,98,26,0.03) 0%, transparent 60%);
+}
+
+/* ── SCREENS ── */
+.screen{
+  display:none;flex-direction:column;
+  min-height:100vh;max-width:480px;
+  margin:0 auto;padding:0 24px;
+  position:relative;z-index:1;
+}
+.screen.active{display:flex;}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(18px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.screen.active>*{animation:fadeUp .45s ease both;}
+.screen.active>*:nth-child(2){animation-delay:.07s}
+.screen.active>*:nth-child(3){animation-delay:.14s}
+.screen.active>*:nth-child(4){animation-delay:.21s}
+.screen.active>*:nth-child(5){animation-delay:.28s}
+.screen.active>*:nth-child(6){animation-delay:.35s}
+
+/* ── LANDING ── */
+#screen-landing{
+  justify-content:center;align-items:center;
+  text-align:center;gap:0;
+  padding-top:48px;padding-bottom:48px;
+}
+.logo-lantern{margin-bottom:32px;}
+.landing-title{
+  font-family:'Shippori Mincho B1',serif;
+  font-size:42px;font-weight:800;letter-spacing:.04em;
+  background:linear-gradient(135deg,var(--amber-lt) 0%,var(--amber) 40%,var(--gold) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:6px;
+}
+.landing-subtitle{
+  font-size:11px;letter-spacing:.25em;color:var(--cream-30);
+  text-transform:uppercase;margin-bottom:36px;
+}
+.landing-desc{
+  font-size:14px;color:var(--cream-60);line-height:1.9;
+  background:var(--card);border:1px solid var(--border-dim);
+  border-radius:18px;padding:20px 22px;
+  margin-bottom:20px;text-align:left;width:100%;
+}
+.time-badge{
+  display:inline-block;font-size:12px;color:var(--cream-30);
+  border:1px solid var(--border-dim);border-radius:100px;
+  padding:9px 20px;margin-bottom:32px;
+}
+.device-box{
+  width:100%;background:var(--card);border:1px solid var(--border);
+  border-radius:18px;padding:20px;text-align:left;
+}
+.device-box-label{
+  font-size:13px;color:var(--cream-60);line-height:1.7;margin-bottom:10px;
+}
+.device-box-size{
+  font-family:'Shippori Mincho B1',serif;
+  font-size:22px;color:var(--amber);margin-bottom:16px;
+}
+.row{display:flex;gap:8px;}
+
+/* ── BUTTONS ── */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:15px 24px;border-radius:100px;
+  font-family:'Noto Sans JP',sans-serif;font-size:14px;font-weight:500;
+  cursor:pointer;border:none;transition:all .2s ease;
+  letter-spacing:.03em;width:100%;
+}
+.btn-primary{
+  background:linear-gradient(130deg,var(--amber) 0%,var(--flame) 100%);
+  color:#1a0800;font-weight:700;
+  box-shadow:0 4px 24px rgba(245,163,35,.28);
+}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 32px rgba(245,163,35,.38);}
+.btn-primary:active{transform:translateY(0);}
+.btn-secondary{
+  background:transparent;color:var(--cream-60);
+  border:1px solid var(--border);flex:1;
+}
+.btn-secondary:hover{border-color:var(--amber);color:var(--cream);}
+.btn-ghost{
+  background:transparent;color:var(--cream-30);
+  font-size:13px;padding:12px;width:auto;
+}
+.btn-ghost:hover{color:var(--cream-60);}
+.btn-sm{padding:12px 18px;font-size:13px;}
+
+/* ── BACK / HEADER ── */
+.back-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  color:var(--cream-30);font-size:13px;
+  cursor:pointer;background:none;border:none;
+  padding:0;margin-bottom:20px;transition:color .2s;
+  align-self:flex-start;
+}
+.back-btn:hover{color:var(--cream-60);}
+.screen-title{
+  font-family:'Shippori Mincho B1',serif;
+  font-size:26px;font-weight:700;margin-bottom:8px;
+}
+.screen-sub{font-size:13px;color:var(--cream-60);margin-bottom:24px;}
+
+/* ── DEVICE SELECT ── */
+#screen-device{padding-top:48px;padding-bottom:48px;gap:0;}
+.device-list{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
+.device-item{
+  padding:14px 18px;background:var(--card);
+  border:1px solid var(--border-dim);border-radius:13px;
+  display:flex;justify-content:space-between;align-items:center;
+  cursor:pointer;transition:all .2s;
+}
+.device-item:hover,.device-item.selected{border-color:var(--amber);background:rgba(245,163,35,.1);}
+.device-item-name{font-size:14px;}
+.device-item-size{font-size:12px;color:var(--cream-30);}
+.custom-box{
+  background:var(--card);border:1px solid var(--border-dim);
+  border-radius:16px;padding:16px;margin-bottom:20px;
+}
+.custom-box-title{font-size:13px;color:var(--cream-60);margin-bottom:12px;}
+.custom-inputs{display:flex;gap:8px;align-items:center;}
+.custom-inputs input{
+  flex:1;background:rgba(255,255,255,.05);
+  border:1px solid var(--border-dim);border-radius:9px;
+  padding:11px;color:var(--cream);
+  font-size:15px;font-family:'Noto Sans JP',sans-serif;
+  text-align:center;
+}
+.custom-inputs input:focus{outline:none;border-color:var(--amber);}
+.custom-sep{color:var(--cream-30);font-size:20px;padding:0 4px;}
+
+/* ── STEP ── */
+#screen-step{padding-top:40px;padding-bottom:48px;gap:0;}
+.progress-wrap{margin-bottom:28px;}
+.progress-dots{display:flex;gap:7px;margin-bottom:8px;}
+.dot{
+  flex:1;height:3px;border-radius:2px;
+  background:rgba(245,163,35,.13);transition:background .4s;
+}
+.dot.done{background:var(--gold);}
+.dot.current{background:linear-gradient(90deg,var(--amber),var(--amber-lt));}
+.progress-label{font-size:11px;color:var(--cream-30);letter-spacing:.08em;}
+.step-icon-wrap{margin-bottom:14px;}
+.step-tag{
+  font-size:11px;letter-spacing:.22em;color:var(--amber);
+  text-transform:uppercase;margin-bottom:4px;
+}
+.step-name{
+  font-family:'Shippori Mincho B1',serif;
+  font-size:30px;font-weight:700;margin-bottom:8px;
+}
+.step-desc{font-size:14px;color:var(--cream-60);margin-bottom:10px;}
+.step-note{
+  font-size:12px;color:var(--amber);
+  background:rgba(245,163,35,.07);
+  border-left:2px solid rgba(245,163,35,.5);
+  padding:9px 12px;border-radius:0 9px 9px 0;
+  margin-bottom:20px;
+}
+.step-qs{margin-bottom:18px;}
+.step-q{
+  font-size:14px;color:var(--cream-60);
+  padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05);
+  line-height:1.65;
+}
+.step-q:last-child{border-bottom:none;}
+.step-q::before{content:'— ';color:var(--amber);}
+textarea{
+  width:100%;
+  background:var(--card);border:1px solid var(--border-dim);
+  border-radius:16px;padding:16px;
+  color:var(--cream);
+  font-family:'Noto Sans JP',sans-serif;font-size:15px;font-weight:300;
+  line-height:1.75;resize:none;min-height:120px;
+  margin-bottom:12px;transition:border-color .2s;
+}
+textarea:focus{outline:none;border-color:var(--amber);background:rgba(245,163,35,.06);}
+textarea::placeholder{color:var(--cream-15);}
+.step-free-note{
+  font-size:12px;color:var(--cream-30);
+  margin-bottom:10px;line-height:1.6;
+}
+.hint-toggle{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:12px;color:var(--amber);
+  cursor:pointer;background:none;border:none;
+  padding:0;margin-bottom:14px;transition:opacity .2s;
+}
+.hint-toggle:hover{opacity:.75;}
+.hint-box{
+  display:none;
+  background:rgba(245,163,35,.05);
+  border:1px solid rgba(245,163,35,.12);
+  border-radius:13px;padding:14px;margin-bottom:14px;
+}
+.hint-box.open{display:block;}
+.hint-label{
+  font-size:11px;color:var(--cream-30);
+  letter-spacing:.1em;margin-bottom:10px;
+}
+.hint-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.tag{
+  padding:5px 13px;
+  background:rgba(245,163,35,.1);
+  border:1px solid rgba(245,163,35,.18);
+  border-radius:100px;font-size:12px;color:var(--amber);
+  cursor:pointer;transition:all .15s;
+}
+.tag:hover{background:rgba(245,163,35,.22);color:var(--cream);}
+.step-actions{display:flex;gap:8px;margin-top:4px;}
+.btn-skip{flex:0 0 auto;width:auto;padding:15px 20px;}
+.btn-next{flex:1;}
+
+/* ── REVIEW ── */
+#screen-review{padding-top:48px;padding-bottom:48px;gap:0;}
+.review-cards{display:flex;flex-direction:column;gap:10px;margin:20px 0 24px;}
+.review-card{
+  background:var(--card);border:1px solid var(--border-dim);
+  border-radius:16px;padding:16px;cursor:pointer;transition:all .2s;
+}
+.review-card:hover{border-color:var(--amber);}
+.review-card-head{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:7px;
+}
+.review-card-name{font-size:11px;letter-spacing:.2em;color:var(--amber);text-transform:uppercase;}
+.review-card-edit{font-size:11px;color:var(--cream-30);}
+.review-card-text{font-size:14px;color:var(--cream-60);line-height:1.7;}
+.review-empty{font-size:13px;color:var(--cream-15);font-style:italic;}
+.review-label-wrap{margin-top:12px;border-top:1px solid rgba(245,163,35,.1);padding-top:12px;}
+.review-label-title{font-size:11px;color:var(--amber);letter-spacing:.1em;margin-bottom:7px;}
+.review-label-input{
+  width:100%;background:rgba(255,255,255,.04);
+  border:1px solid var(--border-dim);border-radius:9px;
+  padding:10px 13px;color:var(--cream);
+  font-family:'Noto Sans JP',sans-serif;font-size:14px;font-weight:300;
+}
+.review-label-input:focus{outline:none;border-color:var(--amber);}
+
+/* ── GENERATE ── */
+#screen-generate{
+  padding-top:48px;padding-bottom:48px;
+  align-items:center;gap:0;
+}
+.gen-title{
+  font-family:'Shippori Mincho B1',serif;
+  font-size:26px;font-weight:700;
+  text-align:center;margin-bottom:6px;
+}
+.gen-desc{font-size:13px;color:var(--cream-60);text-align:center;margin-bottom:4px;}
+.gen-size{font-size:12px;color:var(--amber);text-align:center;margin-bottom:28px;}
+.preview-wrap{
+  width:100%;max-width:240px;
+  border-radius:18px;overflow:hidden;
+  box-shadow:0 8px 48px rgba(245,163,35,.2);
+  margin-bottom:24px;
+}
+.preview-wrap canvas{width:100%;height:auto;display:block;}
+#lanternCanvas{display:none;}
+.gen-actions{display:flex;flex-direction:column;gap:10px;width:100%;}
+
+/* ── OVERLAY ── */
+.overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(8,6,18,.9);z-index:200;
+  align-items:center;justify-content:center;flex-direction:column;gap:14px;
+}
+.overlay.show{display:flex;}
+.spinner{
+  width:44px;height:44px;
+  border:2px solid rgba(245,163,35,.15);
+  border-top-color:var(--amber);
+  border-radius:50%;animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.overlay-text{font-size:14px;color:var(--cream-60);}
+</style>
+</head>
+<body>
+
+<!-- ══ SCREEN: LANDING ══ -->
+<div id="screen-landing" class="screen active">
+
+  <div class="logo-lantern">
+    <svg width="90" height="120" viewBox="0 0 90 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- chain -->
+      <line x1="45" y1="0" x2="45" y2="18" stroke="#c9952a" stroke-width="2" stroke-dasharray="4 3"/>
+      <!-- top cap -->
+      <path d="M30 18 Q45 12 60 18 L58 28 H32 Z" fill="#c9952a" opacity=".8"/>
+      <!-- glass body -->
+      <rect x="22" y="28" width="46" height="72" rx="8" fill="url(#glassGrad)"/>
+      <rect x="22" y="28" width="46" height="72" rx="8" stroke="#c9952a" stroke-width="1.5" fill="none"/>
+      <!-- dividers -->
+      <line x1="22" y1="46" x2="68" y2="46" stroke="#c9952a" stroke-width=".8" opacity=".4"/>
+      <line x1="22" y1="64" x2="68" y2="64" stroke="#c9952a" stroke-width=".8" opacity=".4"/>
+      <line x1="22" y1="82" x2="68" y2="82" stroke="#c9952a" stroke-width=".8" opacity=".4"/>
+      <!-- flame -->
+      <path d="M45 35 C43 30 38 26 40 21 C40 21 43 24 45 22 C47 24 50 21 50 21 C52 26 47 30 45 35Z" fill="url(#flameGrad)"/>
+      <!-- bottom cap -->
+      <path d="M32 100 L58 100 Q60 100 60 102 L58 110 Q45 115 32 110 L30 102 Q30 100 32 100Z" fill="#c9952a" opacity=".7"/>
+      <!-- ring -->
+      <ellipse cx="45" cy="112" rx="6" ry="3" stroke="#c9952a" stroke-width="1.5" fill="none" opacity=".5"/>
+      <!-- glow -->
+      <ellipse cx="45" cy="64" rx="20" ry="28" fill="url(#glowGrad)"/>
+      <defs>
+        <radialGradient id="glassGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#f5a323" stop-opacity=".18"/>
+          <stop offset="100%" stop-color="#e8621a" stop-opacity=".05"/>
+        </radialGradient>
+        <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffcc55" stop-opacity=".12"/>
+          <stop offset="100%" stop-color="#f5a323" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="flameGrad" x1="45" y1="22" x2="45" y2="35" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#fff5a0"/>
+          <stop offset="50%" stop-color="#f5a323"/>
+          <stop offset="100%" stop-color="#e8621a"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+
+  <h1 class="landing-title">Value Lantern</h1>
+  <p class="landing-subtitle">バリューランタン</p>
+
+  <div class="landing-desc">
+    自分の価値観を4つのパーツで整理し、<br>
+    ランタンの画像として手元に置いておくワーク。<br><br>
+    迷ったとき、自分に戻るための灯りを作りましょう。
+  </div>
+
+  <div class="time-badge">じっくりやると10〜15分　／　決まっている人は3分ほど</div>
+
+  <div class="device-box">
+    <div class="device-box-label">診断終了後にランタン画像を1枚生成します。<br>今この画面を見ている端末のサイズで作りますが、この端末用で間違いありませんか？</div>
+    <div class="device-box-size" id="currentSizeLabel">読み込み中…</div>
+    <div class="row">
+      <button class="btn btn-secondary btn-sm" onclick="showScreen('device')">別の端末用にしたい</button>
+      <button class="btn btn-primary btn-sm" style="flex:1" onclick="startDiagnosis()">この端末で OK</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCREEN: DEVICE SELECT ══ -->
+<div id="screen-device" class="screen">
+  <button class="back-btn" onclick="showScreen('landing')">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    もどる
+  </button>
+  <div class="screen-title">端末を選択</div>
+  <div class="screen-sub">画像を生成したい端末を選んでください</div>
+
+  <div class="device-list" id="deviceList"></div>
+
+  <div class="custom-box">
+    <div class="custom-box-title">サイズを直接入力（ピクセル）</div>
+    <div class="custom-inputs">
+      <input type="number" id="customW" placeholder="幅" min="300" max="4000">
+      <span class="custom-sep">×</span>
+      <input type="number" id="customH" placeholder="高さ" min="500" max="9000">
+    </div>
+  </div>
+
+  <button class="btn btn-primary" onclick="applyCustomDevice()">この設定で進む</button>
+</div>
+
+<!-- ══ SCREEN: STEP ══ -->
+<div id="screen-step" class="screen">
+  <div class="progress-wrap">
+    <div class="progress-dots" id="progressDots"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div class="progress-label" id="progressLabel"></div>
+      <button class="back-btn" id="stepBackBtn" onclick="prevStep()" style="margin-bottom:0;">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        前の質問に戻る
+      </button>
+    </div>
+  </div>
+
+  <div class="step-tag" id="stepTag"></div>
+  <div class="step-name" id="stepName"></div>
+  <div class="step-desc" id="stepDesc"></div>
+  <div class="step-note" id="stepNote" style="display:none"></div>
+
+  <div class="step-qs" id="stepQs"></div>
+
+  <div class="step-free-note">ランタンに書き入れるために後程端的にまとめます。ここは思い付いたことをそのまま書いてみましょう。</div>
+  <textarea id="stepTextarea" rows="5" placeholder="ここに入力…"></textarea>
+
+  <button class="hint-toggle" onclick="toggleHint()">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.3"/><path d="M7 4v.5M7 6.5v4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+    <span id="hintToggleText">ヒントを見る</span>
+  </button>
+  <div class="hint-box" id="hintBox">
+    <div class="hint-label">キーワード例（タップで入力欄に追加）</div>
+    <div class="hint-tags" id="hintTags"></div>
+  </div>
+
+  <div class="step-actions">
+    <button class="btn btn-ghost btn-skip" onclick="skipStep()">スキップ</button>
+    <button class="btn btn-primary btn-next" onclick="nextStep()">次へ</button>
+  </div>
+</div>
+
+<!-- ══ SCREEN: REVIEW ══ -->
+<div id="screen-review" class="screen">
+  <div class="screen-title">確認・編集</div>
+  <div class="screen-sub">内容を確認して、問題なければランタンを作りましょう</div>
+
+  <div class="review-cards" id="reviewCards"></div>
+
+  <button class="btn btn-primary" onclick="generateLantern()">ランタンを作る</button>
+</div>
+
+<!-- ══ SCREEN: GENERATE ══ -->
+<div id="screen-generate" class="screen">
+  <div class="gen-title">ランタン完成</div>
+  <div class="gen-desc">あなたのバリューランタンができました</div>
+  <div class="gen-size" id="genSizeNote"></div>
+
+  <div class="preview-wrap">
+    <canvas id="previewCanvas"></canvas>
+  </div>
+
+  <div class="gen-actions">
+    <button class="btn btn-primary" onclick="downloadImage()">画像を保存する</button>
+    <button class="btn btn-secondary" onclick="goToReview()">編集に戻る</button>
+    <button class="btn btn-ghost" onclick="resetApp()">最初からやり直す</button>
+  </div>
+</div>
+
+<!-- Hidden full-size canvas -->
+<canvas id="lanternCanvas"></canvas>
+
+<!-- Loading overlay -->
+<div class="overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+  <div class="overlay-text">ランタンを描いています…</div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────────
+const DEVICES = [
+  {name:'iPhone 16 Pro Max', w:1320, h:2868},
+  {name:'iPhone 16 / 15',    w:1179, h:2556},
+  {name:'Galaxy S25 Ultra',  w:1440, h:3088},
+  {name:'Galaxy S25',        w:1080, h:2340},
+  {name:'Pixel 9 Pro',       w:1344, h:2992},
+  {name:'Pixel 9',           w:1080, h:2424},
+];
+
+const STEPS = [
+  {
+    key:'flame', nameEn:'Flame', nameJa:'炎',
+    desc:'あなたの人生で最も重要な価値観',
+    note:'2つまでに絞るのがポイント。多いと迷いやすくなります',
+    questions:[
+      '人生で最も重要なものを2つだけ選ぶとしたら何ですか？',
+      '時間を忘れて没頭できることは何ですか？',
+    ],
+    hints:['自由','成長','誠実','家族','創造','挑戦','安定','貢献','楽しさ','健康','人のせいにしないこと'],
+    labelPlaceholder:'例：自由　／　人のせいにしないこと',
+    color:'#f5a323',
+  },
+  {
+    key:'protection', nameEn:'Protection', nameJa:'プロテクション',
+    desc:'価値観を守り、強化してくれる行動・人物',
+    note:null,
+    questions:[
+      '自分の価値観を守るために役立つ行動は何ですか？',
+      '自分の価値観をサポートしてくれる人は誰ですか？',
+    ],
+    hints:['家族','友人','読書','運動','自然の中にいること','一人の時間','睡眠','日記'],
+    labelPlaceholder:'例：読書・運動　／　家族',
+    color:'#f5c842',
+  },
+  {
+    key:'handle', nameEn:'Handle', nameJa:'ハンドル',
+    desc:'価値観からズレたときに自分に出るサイン・警告',
+    note:null,
+    questions:[
+      '自分の価値観から逸れたとわかるのはどんなときですか？',
+      '調子が悪いとき、どんな行動に逃げがちですか？',
+    ],
+    hints:['SNSを無目的に見る','掃除で先延ばし','人を避けたくなる','言葉がきつくなる','食べすぎる','眠れない'],
+    labelPlaceholder:'例：言葉がきつくなる　／　SNSに逃げる',
+    color:'#e8621a',
+  },
+  {
+    key:'light', nameEn:'Light', nameJa:'ライト',
+    desc:'価値観に沿って行動できたと感じる瞬間・感覚',
+    note:null,
+    questions:[
+      '自分の価値観に沿って行動できたと感じたのはどんなときですか？',
+      'そのとき、どんな感覚がありましたか？',
+    ],
+    hints:['誰かに感謝された','新しいことを学んでいる','大切な人と笑っている','達成感','没頭していた'],
+    labelPlaceholder:'例：没頭している感覚　／　感謝されたとき',
+    color:'#ffd870',
+  },
+];
+
+// ─────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────
+let state = {
+  currentScreen: 'landing',
+  deviceW: Math.round((screen.width < screen.height ? screen.width  : screen.height) * (window.devicePixelRatio || 1)),
+  deviceH: Math.round((screen.width < screen.height ? screen.height : screen.width)  * (window.devicePixelRatio || 1)),
+  currentStep: 0,
+  answers: {flame:'', protection:'', handle:'', light:''},
+  labels:  {flame:'', protection:'', handle:'', light:''},
+};
+
+// ─────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('currentSizeLabel').textContent =
+    `${state.deviceW} × ${state.deviceH} px`;
+  buildDeviceList();
+});
+
+// ─────────────────────────────────────────────
+// SCREEN MANAGEMENT
+// ─────────────────────────────────────────────
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  state.currentScreen = name;
+  window.scrollTo(0,0);
+}
+
+// ─────────────────────────────────────────────
+// DEVICE SELECT
+// ─────────────────────────────────────────────
+function buildDeviceList() {
+  const list = document.getElementById('deviceList');
+  list.innerHTML = '';
+  DEVICES.forEach((d,i) => {
+    const el = document.createElement('div');
+    el.className = 'device-item';
+    el.dataset.index = i;
+    el.innerHTML = `<span class="device-item-name">${d.name}</span>
+                    <span class="device-item-size">${d.w} × ${d.h}</span>`;
+    el.onclick = () => {
+      document.querySelectorAll('.device-item').forEach(x => x.classList.remove('selected'));
+      el.classList.add('selected');
+      document.getElementById('customW').value = d.w;
+      document.getElementById('customH').value = d.h;
+    };
+    list.appendChild(el);
+  });
+}
+
+function applyCustomDevice() {
+  const w = parseInt(document.getElementById('customW').value);
+  const h = parseInt(document.getElementById('customH').value);
+  if (!w || !h || w < 300 || h < 500) {
+    alert('正しいサイズを入力してください（幅300〜4000, 高さ500〜9000）');
+    return;
+  }
+  state.deviceW = w;
+  state.deviceH = h;
+  startDiagnosis();
+}
+
+// ─────────────────────────────────────────────
+// DIAGNOSIS
+// ─────────────────────────────────────────────
+function startDiagnosis() {
+  state.currentStep = 0;
+  renderStep();
+  showScreen('step');
+}
+
+function renderStep() {
+  const step = STEPS[state.currentStep];
+  const total = STEPS.length;
+
+  // Progress dots
+  const dots = document.getElementById('progressDots');
+  dots.innerHTML = '';
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i < state.currentStep ? ' done' : i === state.currentStep ? ' current' : '');
+    dots.appendChild(d);
+  }
+  document.getElementById('progressLabel').textContent =
+    `${state.currentStep + 1} / ${total}`;
+  document.getElementById('stepBackBtn').style.visibility =
+    state.currentStep === 0 ? 'hidden' : 'visible';
+
+  // Step content
+  document.getElementById('stepTag').textContent = step.nameEn;
+  document.getElementById('stepName').textContent = step.nameJa;
+  document.getElementById('stepDesc').textContent = step.desc;
+
+  const noteEl = document.getElementById('stepNote');
+  if (step.note) {
+    noteEl.textContent = step.note;
+    noteEl.style.display = '';
+  } else {
+    noteEl.style.display = 'none';
+  }
+
+  const qsEl = document.getElementById('stepQs');
+  qsEl.innerHTML = step.questions.map(q => `<div class="step-q">${q}</div>`).join('');
+
+  document.getElementById('stepTextarea').value = state.answers[step.key] || '';
+
+  // Hints
+  const hintBox = document.getElementById('hintBox');
+  hintBox.classList.remove('open');
+  document.getElementById('hintToggleText').textContent = 'ヒントを見る';
+  const tagsEl = document.getElementById('hintTags');
+  tagsEl.innerHTML = step.hints.map(h =>
+    `<span class="tag" onclick="addHint('${h}')">${h}</span>`
+  ).join('');
+}
+
+function toggleHint() {
+  const box = document.getElementById('hintBox');
+  const toggle = document.getElementById('hintToggleText');
+  box.classList.toggle('open');
+  toggle.textContent = box.classList.contains('open') ? 'ヒントを閉じる' : 'ヒントを見る';
+}
+
+function addHint(text) {
+  const ta = document.getElementById('stepTextarea');
+  if (ta.value && !ta.value.endsWith('　') && !ta.value.endsWith(' ') && !ta.value.endsWith('\n')) {
+    ta.value += '　';
+  }
+  ta.value += text;
+  ta.focus();
+}
+
+function saveCurrentStep() {
+  const key = STEPS[state.currentStep].key;
+  state.answers[key] = document.getElementById('stepTextarea').value.trim();
+}
+
+function nextStep() {
+  saveCurrentStep();
+  if (state.currentStep < STEPS.length - 1) {
+    state.currentStep++;
+    renderStep();
+    window.scrollTo(0,0);
+  } else {
+    showReview();
+  }
+}
+
+function prevStep() {
+  saveCurrentStep();
+  state.currentStep--;
+  renderStep();
+  window.scrollTo(0,0);
+}
+
+function skipStep() {
+  state.answers[STEPS[state.currentStep].key] = '';
+  if (state.currentStep < STEPS.length - 1) {
+    state.currentStep++;
+    renderStep();
+    window.scrollTo(0,0);
+  } else {
+    showReview();
+  }
+}
+
+// ─────────────────────────────────────────────
+// REVIEW
+// ─────────────────────────────────────────────
+function showReview() {
+  const cards = document.getElementById('reviewCards');
+  cards.innerHTML = '';
+  STEPS.forEach((step, i) => {
+    const text  = state.answers[step.key];
+    const label = state.labels[step.key];
+    const card  = document.createElement('div');
+    card.className = 'review-card';
+    card.innerHTML = `
+      <div class="review-card-head">
+        <span class="review-card-name">${step.nameEn} / ${step.nameJa}</span>
+        <span class="review-card-edit" onclick="editStep(${i})">メモを編集</span>
+      </div>
+      <div class="${text ? 'review-card-text' : 'review-empty'}">
+        ${text ? escapeHtml(text) : '（スキップ）'}
+      </div>
+      <div class="review-label-wrap">
+        <div class="review-label-title">ランタンに書き入れる言葉</div>
+        <input class="review-label-input"
+          id="label-${step.key}"
+          type="text"
+          placeholder="短い言葉で（例：自由、自己責任）"
+          placeholder="${escapeAttr(step.labelPlaceholder)}"
+          value="${escapeAttr(label || '')}">
+      </div>`;
+    cards.appendChild(card);
+  });
+  showScreen('review');
+}
+
+function escapeAttr(s) {
+  return s.replace(/"/g, '&quot;');
+}
+
+function saveLabels() {
+  STEPS.forEach(step => {
+    const el = document.getElementById('label-' + step.key);
+    if (el) state.labels[step.key] = el.value.trim();
+  });
+}
+
+function goToReview() {
+  showReview();
+}
+
+function editStep(index) {
+  state.currentStep = index;
+  renderStep();
+  showScreen('step');
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+}
+
+// ─────────────────────────────────────────────
+// CANVAS GENERATION
+// ─────────────────────────────────────────────
+async function generateLantern() {
+  saveLabels();
+  document.getElementById('loadingOverlay').classList.add('show');
+
+  // Ensure fonts are loaded
+  await document.fonts.ready;
+  // Small additional delay for canvas font availability
+  await new Promise(r => setTimeout(r, 200));
+
+  const W = state.deviceW;
+  const H = state.deviceH;
+  const canvas = document.getElementById('lanternCanvas');
+  canvas.width  = W;
+  canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  // ランタン表示用：labels が入力されていればそちらを、なければ answers を使う
+  const displayAnswers = {};
+  STEPS.forEach(s => {
+    displayAnswers[s.key] = state.labels[s.key] || state.answers[s.key] || '';
+  });
+  drawLantern(ctx, W, H, displayAnswers);
+
+  // Copy to preview
+  const preview = document.getElementById('previewCanvas');
+  const scale   = 280 / W;
+  preview.width  = 280;
+  preview.height = Math.round(H * scale);
+  const pCtx = preview.getContext('2d');
+  pCtx.drawImage(canvas, 0, 0, preview.width, preview.height);
+
+  document.getElementById('genSizeNote').textContent =
+    `画像サイズ：${W} × ${H} px`;
+
+  document.getElementById('loadingOverlay').classList.remove('show');
+  showScreen('generate');
+}
+
+function drawLantern(ctx, W, H, answers) {
+  const s = v => v * (W / 1080); // scale relative to 1080 reference width
+
+  // ── Background ──
+  const bg = ctx.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0,   '#060410');
+  bg.addColorStop(0.45,'#0c0918');
+  bg.addColorStop(1,   '#050308');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, W, H);
+
+  // Atmospheric glow
+  const glow = ctx.createRadialGradient(W/2, H*0.44, 0, W/2, H*0.44, W*0.65);
+  glow.addColorStop(0,   'rgba(245,155,35,0.16)');
+  glow.addColorStop(0.4, 'rgba(200,100,20,0.06)');
+  glow.addColorStop(1,   'rgba(0,0,0,0)');
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, W, H);
+
+  // Subtle stars
+  drawStars(ctx, W, H);
+
+  // ── Title ──
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#f5a323';
+  ctx.font = `800 ${s(62)}px 'Shippori Mincho B1', serif`;
+  ctx.fillText('Value Lantern', W/2, s(130));
+
+  ctx.fillStyle = 'rgba(253,244,224,0.35)';
+  ctx.font = `300 ${s(24)}px 'Noto Sans JP', sans-serif`;
+  ctx.fillText('バリューランタン', W/2, s(172));
+
+  // ── Lantern geometry ──
+  const lW  = W * 0.68;
+  const lH  = H * 0.66;
+  const lX  = (W - lW) / 2;
+  const lY  = H * 0.145;
+  const lR  = s(20);
+  const secH = lH / 4;
+
+  // Chain above lantern
+  ctx.beginPath();
+  ctx.moveTo(W/2, s(185));
+  ctx.lineTo(W/2, lY - s(18));
+  ctx.setLineDash([s(5), s(4)]);
+  ctx.strokeStyle = 'rgba(201,149,42,0.45)';
+  ctx.lineWidth = s(2.5);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Top cap
+  const capW = lW * 0.38;
+  const capX = W/2 - capW/2;
+  ctx.beginPath();
+  ctx.moveTo(W/2, lY - s(22));
+  ctx.lineTo(capX, lY);
+  ctx.lineTo(capX + capW, lY);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(201,149,42,0.75)';
+  ctx.fill();
+  ctx.strokeStyle = '#c9952a';
+  ctx.lineWidth = s(2);
+  ctx.stroke();
+
+  // Glass body fill
+  const glassGrad = ctx.createRadialGradient(W/2, lY+lH/2, 0, W/2, lY+lH/2, lW*0.6);
+  glassGrad.addColorStop(0,   'rgba(255,160,40,0.13)');
+  glassGrad.addColorStop(0.6, 'rgba(255,120,20,0.06)');
+  glassGrad.addColorStop(1,   'rgba(255,80,0,0.02)');
+  roundRect(ctx, lX, lY, lW, lH, lR);
+  ctx.fillStyle = glassGrad;
+  ctx.fill();
+
+  // Glass border
+  roundRect(ctx, lX, lY, lW, lH, lR);
+  ctx.strokeStyle = '#c9952a';
+  ctx.lineWidth = s(2.5);
+  ctx.stroke();
+
+  // ── Sections ──
+  const sectionDefs = [
+    {key:'flame',      nameEn:'FLAME',       nameJa:'炎',           color:'#f5a323'},
+    {key:'protection', nameEn:'PROTECTION',  nameJa:'プロテクション', color:'#f5c842'},
+    {key:'handle',     nameEn:'HANDLE',      nameJa:'ハンドル',      color:'#e8621a'},
+    {key:'light',      nameEn:'LIGHT',       nameJa:'ライト',        color:'#ffd870'},
+  ];
+
+  sectionDefs.forEach((sec, i) => {
+    const secY = lY + secH * i;
+
+    // Section divider
+    if (i > 0) {
+      ctx.beginPath();
+      ctx.moveTo(lX + lR, secY);
+      ctx.lineTo(lX + lW - lR, secY);
+      ctx.strokeStyle = 'rgba(201,149,42,0.35)';
+      ctx.lineWidth = s(1.2);
+      ctx.stroke();
+    }
+
+    const padX = lX + s(32);
+    const maxW = lW - s(64);
+
+    // Section color dot
+    ctx.beginPath();
+    ctx.arc(padX - s(12), secY + s(36), s(4), 0, Math.PI*2);
+    ctx.fillStyle = sec.color;
+    ctx.fill();
+
+    // nameEn
+    ctx.textAlign = 'left';
+    ctx.fillStyle = sec.color;
+    ctx.font = `500 ${s(13)}px 'Noto Sans JP', sans-serif`;
+    ctx.globalAlpha = 0.9;
+    ctx.fillText(sec.nameEn, padX, secY + s(40));
+    ctx.globalAlpha = 1;
+
+    // nameJa
+    ctx.fillStyle = 'rgba(253,244,224,0.9)';
+    ctx.font = `700 ${s(20)}px 'Shippori Mincho B1', serif`;
+    ctx.fillText(sec.nameJa, padX, secY + s(68));
+
+    // Separator line under header
+    ctx.beginPath();
+    ctx.moveTo(padX, secY + s(78));
+    ctx.lineTo(lX + lW - s(32), secY + s(78));
+    ctx.strokeStyle = 'rgba(201,149,42,0.2)';
+    ctx.lineWidth = s(0.8);
+    ctx.stroke();
+
+    // User text
+    const text = answers[sec.key];
+    if (text) {
+      ctx.fillStyle = 'rgba(253,244,224,0.72)';
+      ctx.font = `300 ${s(17)}px 'Noto Sans JP', sans-serif`;
+      wrapText(ctx, text, padX, secY + s(104), maxW, s(28), 5);
+    } else {
+      ctx.fillStyle = 'rgba(253,244,224,0.18)';
+      ctx.font = `300 ${s(15)}px 'Noto Sans JP', sans-serif`;
+      ctx.fillText('—', padX, secY + s(104));
+    }
+  });
+
+  // Bottom cap
+  ctx.beginPath();
+  ctx.moveTo(lX + lR, lY + lH);
+  ctx.lineTo(lX + lW - lR, lY + lH);
+  ctx.lineTo(W/2 + capW*0.3, lY + lH + s(18));
+  ctx.lineTo(W/2 - capW*0.3, lY + lH + s(18));
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(201,149,42,0.7)';
+  ctx.fill();
+  ctx.strokeStyle = '#c9952a';
+  ctx.lineWidth = s(2);
+  ctx.stroke();
+
+  // Bottom ring
+  ctx.beginPath();
+  ctx.ellipse(W/2, lY + lH + s(26), s(18), s(9), 0, 0, Math.PI*2);
+  ctx.strokeStyle = 'rgba(201,149,42,0.55)';
+  ctx.lineWidth = s(2);
+  ctx.stroke();
+
+  // ── Footer ──
+  const date = new Date().toLocaleDateString('ja-JP', {year:'numeric',month:'long',day:'numeric'});
+  ctx.textAlign = 'center';
+  ctx.fillStyle = 'rgba(253,244,224,0.22)';
+  ctx.font = `300 ${s(20)}px 'Noto Sans JP', sans-serif`;
+  ctx.fillText(date, W/2, H - s(70));
+}
+
+// ── Canvas helpers ──
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x+w, y, x+w, y+r);
+  ctx.lineTo(x+w, y+h-r);
+  ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+  ctx.lineTo(x+r, y+h);
+  ctx.quadraticCurveTo(x, y+h, x, y+h-r);
+  ctx.lineTo(x, y+r);
+  ctx.quadraticCurveTo(x, y, x+r, y);
+  ctx.closePath();
+}
+
+function wrapText(ctx, text, x, y, maxW, lineH, maxLines) {
+  let line = '';
+  let curY = y;
+  let lines = 0;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (ch === '\n') {
+      ctx.fillText(line, x, curY);
+      line = '';
+      curY += lineH;
+      lines++;
+      if (maxLines && lines >= maxLines) return;
+      continue;
+    }
+    const test = line + ch;
+    if (ctx.measureText(test).width > maxW && line !== '') {
+      ctx.fillText(line, x, curY);
+      line = ch;
+      curY += lineH;
+      lines++;
+      if (maxLines && lines >= maxLines) return;
+    } else {
+      line = test;
+    }
+  }
+  if (line) ctx.fillText(line, x, curY);
+}
+
+function drawStars(ctx, W, H) {
+  const seed = 42;
+  const pseudo = (n) => {
+    let x = Math.sin(n * seed) * 10000;
+    return x - Math.floor(x);
+  };
+  ctx.save();
+  for (let i = 0; i < 60; i++) {
+    const sx = pseudo(i*3)   * W;
+    const sy = pseudo(i*3+1) * H;
+    const sr = pseudo(i*3+2) * 1.5 + 0.3;
+    const op = pseudo(i*3+2) * 0.4 + 0.05;
+    ctx.beginPath();
+    ctx.arc(sx, sy, sr, 0, Math.PI*2);
+    ctx.fillStyle = `rgba(253,244,224,${op})`;
+    ctx.fill();
+  }
+  ctx.restore();
+}
+
+// ─────────────────────────────────────────────
+// DOWNLOAD
+// ─────────────────────────────────────────────
+function downloadImage() {
+  const canvas = document.getElementById('lanternCanvas');
+  const link = document.createElement('a');
+  link.download = 'value-lantern.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
+// ─────────────────────────────────────────────
+// RESET
+// ─────────────────────────────────────────────
+function resetApp() {
+  if (!confirm('最初からやり直しますか？入力内容はすべて消えます。')) return;
+  state.answers = {flame:'', protection:'', handle:'', light:''};
+  state.labels  = {flame:'', protection:'', handle:'', light:''};
+  state.currentStep = 0;
+  showScreen('landing');
+}
+</script>
+</body>
+</html>
