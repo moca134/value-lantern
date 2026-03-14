@@ -347,41 +347,73 @@ textarea::placeholder{color:var(--cream-15);}
 <div id="screen-landing" class="screen active">
 
   <div class="logo-lantern">
-    <svg width="90" height="120" viewBox="0 0 90 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- chain -->
-      <line x1="45" y1="0" x2="45" y2="18" stroke="#c9952a" stroke-width="2" stroke-dasharray="4 3"/>
-      <!-- top cap -->
-      <path d="M30 18 Q45 12 60 18 L58 28 H32 Z" fill="#c9952a" opacity=".8"/>
-      <!-- glass body -->
-      <rect x="22" y="28" width="46" height="72" rx="8" fill="url(#glassGrad)"/>
-      <rect x="22" y="28" width="46" height="72" rx="8" stroke="#c9952a" stroke-width="1.5" fill="none"/>
-      <!-- dividers -->
-      <line x1="22" y1="46" x2="68" y2="46" stroke="#c9952a" stroke-width=".8" opacity=".4"/>
-      <line x1="22" y1="64" x2="68" y2="64" stroke="#c9952a" stroke-width=".8" opacity=".4"/>
-      <line x1="22" y1="82" x2="68" y2="82" stroke="#c9952a" stroke-width=".8" opacity=".4"/>
-      <!-- flame -->
-      <path d="M45 35 C43 30 38 26 40 21 C40 21 43 24 45 22 C47 24 50 21 50 21 C52 26 47 30 45 35Z" fill="url(#flameGrad)"/>
-      <!-- bottom cap -->
-      <path d="M32 100 L58 100 Q60 100 60 102 L58 110 Q45 115 32 110 L30 102 Q30 100 32 100Z" fill="#c9952a" opacity=".7"/>
-      <!-- ring -->
-      <ellipse cx="45" cy="112" rx="6" ry="3" stroke="#c9952a" stroke-width="1.5" fill="none" opacity=".5"/>
-      <!-- glow -->
-      <ellipse cx="45" cy="64" rx="20" ry="28" fill="url(#glowGrad)"/>
+    <svg width="96" height="140" viewBox="0 0 96 140" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <radialGradient id="glassGrad" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#f5a323" stop-opacity=".18"/>
-          <stop offset="100%" stop-color="#e8621a" stop-opacity=".05"/>
+        <radialGradient id="glassGrad" cx="50%" cy="40%" r="60%">
+          <stop offset="0%" stop-color="#ffdd88" stop-opacity=".28"/>
+          <stop offset="55%" stop-color="#f5a323" stop-opacity=".1"/>
+          <stop offset="100%" stop-color="#c06010" stop-opacity=".03"/>
         </radialGradient>
-        <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#ffcc55" stop-opacity=".12"/>
+        <radialGradient id="glowGrad" cx="50%" cy="45%" r="55%">
+          <stop offset="0%" stop-color="#ffcc55" stop-opacity=".22"/>
           <stop offset="100%" stop-color="#f5a323" stop-opacity="0"/>
         </radialGradient>
-        <linearGradient id="flameGrad" x1="45" y1="22" x2="45" y2="35" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stop-color="#fff5a0"/>
-          <stop offset="50%" stop-color="#f5a323"/>
-          <stop offset="100%" stop-color="#e8621a"/>
+        <linearGradient id="flameGrad" x1="48" y1="36" x2="48" y2="58" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#fffff0"/>
+          <stop offset="35%" stop-color="#ffe066"/>
+          <stop offset="100%" stop-color="#e05010"/>
+        </linearGradient>
+        <linearGradient id="metalGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#8a6010"/>
+          <stop offset="40%" stop-color="#c9952a"/>
+          <stop offset="100%" stop-color="#8a6010"/>
         </linearGradient>
       </defs>
+
+      <!-- bail (U字型の持ち手) -->
+      <path d="M38 8 Q38 2 48 2 Q58 2 58 8" stroke="#c9952a" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- bail attachment points -->
+      <circle cx="38" cy="9" r="2.2" fill="#c9952a"/>
+      <circle cx="58" cy="9" r="2.2" fill="#c9952a"/>
+
+      <!-- top vent dome -->
+      <path d="M34 9 L38 9 L38 18 M58 9 L58 18" stroke="#c9952a" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M30 18 Q48 13 66 18 L63 26 Q48 22 33 26 Z" fill="url(#metalGrad)" opacity=".9"/>
+      <!-- vent slits on dome -->
+      <line x1="40" y1="19" x2="40" y2="24" stroke="#000" stroke-width="1.2" opacity=".4"/>
+      <line x1="48" y1="18" x2="48" y2="23" stroke="#000" stroke-width="1.2" opacity=".4"/>
+      <line x1="56" y1="19" x2="56" y2="24" stroke="#000" stroke-width="1.2" opacity=".4"/>
+
+      <!-- glass body (四角形ランタン本体) glow layer -->
+      <rect x="26" y="26" width="44" height="72" rx="3" fill="url(#glassGrad)"/>
+      <ellipse cx="48" cy="62" rx="18" ry="26" fill="url(#glowGrad)"/>
+
+      <!-- frame corners (四隅の金属柱) -->
+      <rect x="25" y="26" width="4" height="72" rx="2" fill="#b8821a" opacity=".85"/>
+      <rect x="67" y="26" width="4" height="72" rx="2" fill="#b8821a" opacity=".85"/>
+
+      <!-- glass panels border -->
+      <rect x="26" y="26" width="44" height="72" rx="3" stroke="#c9952a" stroke-width="1.4" fill="none"/>
+
+      <!-- center vertical divider -->
+      <line x1="48" y1="26" x2="48" y2="98" stroke="#c9952a" stroke-width="1" opacity=".35"/>
+
+      <!-- horizontal band (center ring) -->
+      <rect x="25" y="59" width="46" height="4" fill="url(#metalGrad)" opacity=".7"/>
+
+      <!-- flame -->
+      <path d="M48 58 C46 51 42 47 43 40 C43 40 46 45 48 41 C50 45 53 40 53 40 C54 47 50 51 48 58Z"
+            fill="url(#flameGrad)"/>
+      <ellipse cx="48" cy="59" rx="4" ry="2" fill="#ffee99" opacity=".6"/>
+
+      <!-- base cap -->
+      <rect x="25" y="98" width="46" height="4" fill="url(#metalGrad)" opacity=".85"/>
+      <!-- oil reservoir -->
+      <path d="M28 102 L68 102 L66 112 Q48 117 30 112 Z" fill="#9a7015" opacity=".85"/>
+      <path d="M28 102 L68 102 L66 112 Q48 117 30 112 Z" stroke="#c9952a" stroke-width="1" fill="none" opacity=".6"/>
+      <!-- base foot -->
+      <ellipse cx="48" cy="113" rx="20" ry="5" fill="#6a4e10" opacity=".6"/>
+      <ellipse cx="48" cy="113" rx="20" ry="5" stroke="#c9952a" stroke-width="1" fill="none" opacity=".5"/>
     </svg>
   </div>
 
@@ -888,7 +920,7 @@ async function generateLantern() {
 }
 
 function drawLantern(ctx, W, H, answers) {
-  const s = v => v * (W / 1080); // scale relative to 1080 reference width
+  const s = v => v * (W / 1080);
 
   // ── Background ──
   const bg = ctx.createLinearGradient(0, 0, 0, H);
@@ -898,16 +930,12 @@ function drawLantern(ctx, W, H, answers) {
   ctx.fillStyle = bg;
   ctx.fillRect(0, 0, W, H);
 
-  // Atmospheric glow
-  const glow = ctx.createRadialGradient(W/2, H*0.48, 0, W/2, H*0.48, W*0.65);
-  glow.addColorStop(0,   'rgba(245,155,35,0.16)');
-  glow.addColorStop(0.4, 'rgba(200,100,20,0.06)');
-  glow.addColorStop(1,   'rgba(0,0,0,0)');
-  ctx.fillStyle = glow;
+  const atmosGlow = ctx.createRadialGradient(W/2, H*0.48, 0, W/2, H*0.48, W*0.65);
+  atmosGlow.addColorStop(0,   'rgba(245,155,35,0.16)');
+  atmosGlow.addColorStop(0.4, 'rgba(200,100,20,0.06)');
+  atmosGlow.addColorStop(1,   'rgba(0,0,0,0)');
+  ctx.fillStyle = atmosGlow;
   ctx.fillRect(0, 0, W, H);
-
-  // Subtle stars
-  drawStars(ctx, W, H);
 
   // ── Title ──
   ctx.textAlign = 'center';
@@ -916,79 +944,156 @@ function drawLantern(ctx, W, H, answers) {
   ctx.fillText('Value Lantern', W/2, s(96));
 
   // ── Lantern geometry ──
-  const lW  = W * 0.82;
-  const lH  = H * 0.68;
-  const lX  = (W - lW) / 2;
-  const lY  = H * 0.14;
-  const lR  = s(20);
+  const lW   = W * 0.82;
+  const lH   = H * 0.68;
+  const lX   = (W - lW) / 2;
+  const lY   = H * 0.155;
   const secH = lH / 4;
+  const postW = s(24); // metal corner post width
 
-  // Chain above lantern
+  // ── Bail ring (吊り輪) ──
   ctx.beginPath();
-  ctx.moveTo(W/2, s(112));
-  ctx.lineTo(W/2, lY - s(12));
-  ctx.setLineDash([s(5), s(4)]);
-  ctx.strokeStyle = 'rgba(201,149,42,0.45)';
+  ctx.ellipse(W/2, s(74), s(30), s(19), 0, 0, Math.PI * 2);
+  ctx.strokeStyle = '#c9952a';
+  ctx.lineWidth = s(5);
+  ctx.stroke();
+  // inner highlight
+  ctx.beginPath();
+  ctx.ellipse(W/2, s(74), s(30), s(19), 0, 0, Math.PI * 2);
+  ctx.strokeStyle = 'rgba(255,220,100,0.3)';
+  ctx.lineWidth = s(2);
+  ctx.stroke();
+
+  // Bail arms (V字アーム)
+  ctx.beginPath();
+  ctx.moveTo(W/2 - s(24), s(87));
+  ctx.lineTo(W/2 - lW * 0.28, lY - s(38));
+  ctx.moveTo(W/2 + s(24), s(87));
+  ctx.lineTo(W/2 + lW * 0.28, lY - s(38));
+  ctx.strokeStyle = '#c9952a';
+  ctx.lineWidth = s(4);
+  ctx.stroke();
+
+  // ── Top dome cap (多段) ──
+  const capTopY = lY - s(38);
+
+  // Tier 1: widest base ring
+  const t1W = lW * 0.82, t1H = s(20);
+  roundRect(ctx, W/2 - t1W/2, capTopY, t1W, t1H, s(8));
+  ctx.fillStyle = 'rgba(170,120,25,0.9)';
+  ctx.fill();
+  ctx.strokeStyle = '#c9952a';
   ctx.lineWidth = s(2.5);
   ctx.stroke();
-  ctx.setLineDash([]);
 
-  // Top cap
-  const capW = lW * 0.38;
-  const capX = W/2 - capW/2;
-  ctx.beginPath();
-  ctx.moveTo(W/2, lY - s(22));
-  ctx.lineTo(capX, lY);
-  ctx.lineTo(capX + capW, lY);
-  ctx.closePath();
-  ctx.fillStyle = 'rgba(201,149,42,0.75)';
+  // Tier 2: mid dome
+  const t2W = lW * 0.54, t2H = s(24);
+  const t2Y = capTopY - t2H;
+  roundRect(ctx, W/2 - t2W/2, t2Y, t2W, t2H, s(7));
+  ctx.fillStyle = 'rgba(150,105,20,0.88)';
   ctx.fill();
   ctx.strokeStyle = '#c9952a';
   ctx.lineWidth = s(2);
   ctx.stroke();
 
-  // Glass body fill
-  const glassGrad = ctx.createRadialGradient(W/2, lY+lH/2, 0, W/2, lY+lH/2, lW*0.6);
-  glassGrad.addColorStop(0,   'rgba(255,160,40,0.13)');
-  glassGrad.addColorStop(0.6, 'rgba(255,120,20,0.06)');
-  glassGrad.addColorStop(1,   'rgba(255,80,0,0.02)');
-  roundRect(ctx, lX, lY, lW, lH, lR);
-  ctx.fillStyle = glassGrad;
-  ctx.fill();
+  // Vent slits on tier 2
+  for (let i = -2; i <= 2; i++) {
+    ctx.beginPath();
+    ctx.moveTo(W/2 + i * s(18), t2Y + s(5));
+    ctx.lineTo(W/2 + i * s(18), t2Y + t2H - s(5));
+    ctx.strokeStyle = 'rgba(0,0,0,0.55)';
+    ctx.lineWidth = s(4);
+    ctx.stroke();
+  }
 
-  // Glass border
-  roundRect(ctx, lX, lY, lW, lH, lR);
+  // Tier 3: top knob
+  const t3W = lW * 0.26, t3H = s(20);
+  const t3Y = t2Y - t3H;
+  roundRect(ctx, W/2 - t3W/2, t3Y, t3W, t3H, s(6));
+  ctx.fillStyle = 'rgba(130,90,15,0.85)';
+  ctx.fill();
   ctx.strokeStyle = '#c9952a';
-  ctx.lineWidth = s(2.5);
+  ctx.lineWidth = s(2);
+  ctx.stroke();
+
+  // ── Glass body (ガラスパネル内側の光) ──
+  const innerGlow = ctx.createRadialGradient(W/2, lY + lH * 0.35, 0, W/2, lY + lH * 0.35, lW * 0.55);
+  innerGlow.addColorStop(0,   'rgba(255,200,80,0.15)');
+  innerGlow.addColorStop(0.5, 'rgba(255,130,30,0.07)');
+  innerGlow.addColorStop(1,   'rgba(255,80,0,0.01)');
+  ctx.fillStyle = innerGlow;
+  ctx.fillRect(lX + postW, lY, lW - postW * 2, lH);
+
+  // ── Corner metal posts ──
+  // Left post
+  const gL = ctx.createLinearGradient(lX, 0, lX + postW, 0);
+  gL.addColorStop(0,   'rgba(80,55,8,0.95)');
+  gL.addColorStop(0.45,'rgba(210,158,45,0.95)');
+  gL.addColorStop(1,   'rgba(120,85,12,0.9)');
+  ctx.fillStyle = gL;
+  ctx.fillRect(lX, lY, postW, lH);
+
+  // Right post
+  const gR = ctx.createLinearGradient(lX + lW - postW, 0, lX + lW, 0);
+  gR.addColorStop(0,   'rgba(120,85,12,0.9)');
+  gR.addColorStop(0.55,'rgba(210,158,45,0.95)');
+  gR.addColorStop(1,   'rgba(80,55,8,0.95)');
+  ctx.fillStyle = gR;
+  ctx.fillRect(lX + lW - postW, lY, postW, lH);
+
+  // Post rivet dots
+  [lY + lH * 0.12, lY + lH * 0.37, lY + lH * 0.62, lY + lH * 0.87].forEach(ry => {
+    [lX + postW * 0.5, lX + lW - postW * 0.5].forEach(rx => {
+      ctx.beginPath();
+      ctx.arc(rx, ry, s(5), 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,220,100,0.5)';
+      ctx.fill();
+    });
+  });
+
+  // ── Outer frame border ──
+  ctx.beginPath();
+  ctx.rect(lX, lY, lW, lH);
+  ctx.strokeStyle = '#c9952a';
+  ctx.lineWidth = s(3);
   ctx.stroke();
 
   // ── Sections ──
   const sectionDefs = [
-    {key:'flame',      nameEn:'FLAME',       nameJa:'炎',           color:'#f5a323'},
-    {key:'protection', nameEn:'PROTECTION',  nameJa:'プロテクション', color:'#f5c842'},
-    {key:'handle',     nameEn:'HANDLE',      nameJa:'ハンドル',      color:'#e8621a'},
-    {key:'light',      nameEn:'LIGHT',       nameJa:'ライト',        color:'#ffd870'},
+    {key:'flame',      nameEn:'FLAME',      nameJa:'炎',            color:'#f5a323'},
+    {key:'protection', nameEn:'PROTECTION', nameJa:'プロテクション', color:'#f5c842'},
+    {key:'handle',     nameEn:'HANDLE',     nameJa:'ハンドル',       color:'#e8621a'},
+    {key:'light',      nameEn:'LIGHT',      nameJa:'ライト',         color:'#ffd870'},
   ];
 
   sectionDefs.forEach((sec, i) => {
     const secY = lY + secH * i;
 
-    // Section divider
+    // Section metal band divider
     if (i > 0) {
+      const bandH = s(14);
+      const bandGrad = ctx.createLinearGradient(0, secY - bandH/2, 0, secY + bandH/2);
+      bandGrad.addColorStop(0,   'rgba(100,70,10,0.6)');
+      bandGrad.addColorStop(0.5, 'rgba(201,149,42,0.85)');
+      bandGrad.addColorStop(1,   'rgba(100,70,10,0.6)');
+      ctx.fillStyle = bandGrad;
+      ctx.fillRect(lX, secY - bandH/2, lW, bandH);
       ctx.beginPath();
-      ctx.moveTo(lX + lR, secY);
-      ctx.lineTo(lX + lW - lR, secY);
-      ctx.strokeStyle = 'rgba(201,149,42,0.35)';
-      ctx.lineWidth = s(1.2);
+      ctx.moveTo(lX, secY - bandH/2);
+      ctx.lineTo(lX + lW, secY - bandH/2);
+      ctx.moveTo(lX, secY + bandH/2);
+      ctx.lineTo(lX + lW, secY + bandH/2);
+      ctx.strokeStyle = '#c9952a';
+      ctx.lineWidth = s(1.5);
       ctx.stroke();
     }
 
-    const padX = lX + s(36);
-    const maxW = lW - s(72);
+    const padX = lX + postW + s(28);
+    const maxW = lW - postW * 2 - s(56);
 
-    // Section color dot
+    // Color dot
     ctx.beginPath();
-    ctx.arc(padX - s(16), secY + s(52), s(7), 0, Math.PI*2);
+    ctx.arc(padX - s(16), secY + s(52), s(7), 0, Math.PI * 2);
     ctx.fillStyle = sec.color;
     ctx.fill();
 
@@ -1005,10 +1110,10 @@ function drawLantern(ctx, W, H, answers) {
     ctx.font = `700 ${s(60)}px 'Shippori Mincho B1', serif`;
     ctx.fillText(sec.nameJa, padX, secY + s(120));
 
-    // Separator line under header
+    // Underline
     ctx.beginPath();
     ctx.moveTo(padX, secY + s(138));
-    ctx.lineTo(lX + lW - s(32), secY + s(138));
+    ctx.lineTo(lX + lW - postW - s(28), secY + s(138));
     ctx.strokeStyle = 'rgba(201,149,42,0.2)';
     ctx.lineWidth = s(1);
     ctx.stroke();
@@ -1017,8 +1122,8 @@ function drawLantern(ctx, W, H, answers) {
     const text = answers[sec.key];
     if (text) {
       ctx.fillStyle = 'rgba(253,244,224,0.85)';
-      ctx.font = `300 ${s(48)}px 'Noto Sans JP', sans-serif`;
-      wrapText(ctx, text, padX, secY + s(186), maxW, s(64), 3);
+      ctx.font = `300 ${s(72)}px 'Noto Sans JP', sans-serif`;
+      wrapText(ctx, text, padX, secY + s(186), maxW, s(88), 2);
     } else {
       ctx.fillStyle = 'rgba(253,244,224,0.18)';
       ctx.font = `300 ${s(40)}px 'Noto Sans JP', sans-serif`;
@@ -1026,28 +1131,59 @@ function drawLantern(ctx, W, H, answers) {
     }
   });
 
-  // Bottom cap
+  // ── Bottom metal ring band ──
+  const botBandH = s(20);
+  const botBandGrad = ctx.createLinearGradient(0, lY + lH, 0, lY + lH + botBandH);
+  botBandGrad.addColorStop(0,   'rgba(201,149,42,0.9)');
+  botBandGrad.addColorStop(1,   'rgba(120,85,12,0.8)');
+  ctx.fillStyle = botBandGrad;
+  ctx.fillRect(lX, lY + lH, lW, botBandH);
   ctx.beginPath();
-  ctx.moveTo(lX + lR, lY + lH);
-  ctx.lineTo(lX + lW - lR, lY + lH);
-  ctx.lineTo(W/2 + capW*0.3, lY + lH + s(18));
-  ctx.lineTo(W/2 - capW*0.3, lY + lH + s(18));
+  ctx.rect(lX, lY + lH, lW, botBandH);
+  ctx.strokeStyle = '#c9952a';
+  ctx.lineWidth = s(2);
+  ctx.stroke();
+
+  // ── Oil reservoir (底のオイルタンク台形) ──
+  const resW1 = lW * 0.92;
+  const resW2 = lW * 0.72;
+  const resH  = s(54);
+  const resY  = lY + lH + botBandH;
+  ctx.beginPath();
+  ctx.moveTo(W/2 - resW1/2, resY);
+  ctx.lineTo(W/2 + resW1/2, resY);
+  ctx.lineTo(W/2 + resW2/2, resY + resH);
+  ctx.lineTo(W/2 - resW2/2, resY + resH);
   ctx.closePath();
-  ctx.fillStyle = 'rgba(201,149,42,0.7)';
+  const resGrad = ctx.createLinearGradient(W/2 - resW1/2, 0, W/2 + resW1/2, 0);
+  resGrad.addColorStop(0,   'rgba(70,48,8,0.9)');
+  resGrad.addColorStop(0.5, 'rgba(140,100,18,0.85)');
+  resGrad.addColorStop(1,   'rgba(70,48,8,0.9)');
+  ctx.fillStyle = resGrad;
+  ctx.fill();
+  ctx.strokeStyle = '#c9952a';
+  ctx.lineWidth = s(2.5);
+  ctx.stroke();
+
+  // ── Foot plate ──
+  const footW = lW * 0.68;
+  const footY = resY + resH;
+  roundRect(ctx, W/2 - footW/2, footY, footW, s(16), s(7));
+  ctx.fillStyle = 'rgba(90,62,10,0.9)';
   ctx.fill();
   ctx.strokeStyle = '#c9952a';
   ctx.lineWidth = s(2);
   ctx.stroke();
 
-  // Bottom ring
+  // Foot ellipse ring
   ctx.beginPath();
-  ctx.ellipse(W/2, lY + lH + s(26), s(18), s(9), 0, 0, Math.PI*2);
-  ctx.strokeStyle = 'rgba(201,149,42,0.55)';
+  ctx.ellipse(W/2, footY + s(8), footW * 0.38, s(10), 0, 0, Math.PI * 2);
+  ctx.strokeStyle = 'rgba(201,149,42,0.45)';
   ctx.lineWidth = s(2);
   ctx.stroke();
 
-  // ── Footer ──
-  const date = new Date().toLocaleDateString('ja-JP', {year:'numeric',month:'long',day:'numeric'});
+  // ── Footer date ──
+  const date = new Date().toLocaleDateString('ja-JP', {year:'numeric', month:'long', day:'numeric'});
   ctx.textAlign = 'center';
   ctx.fillStyle = 'rgba(253,244,224,0.22)';
   ctx.font = `300 ${s(20)}px 'Noto Sans JP', sans-serif`;
