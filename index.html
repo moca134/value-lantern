@@ -938,73 +938,128 @@ function drawLantern(ctx, W, H, answers) {
   ctx.fillRect(0, 0, W, H);
 
   // ── Lantern geometry ──
-  const lW   = W * 0.86;
+  const lW   = W * 0.82;
   const lH   = H * 0.70;
   const lX   = (W - lW) / 2;
-  const lY   = H * 0.235;  // ガラス本体の上端
+  const lY   = H * 0.215;
   const secH = lH / 4;
-  const postW = s(14);
+  const postW = s(10);
 
-  // ── Title（吊り輪より上） ──
+  // ── Title ──
   ctx.textAlign = 'center';
   ctx.fillStyle = '#f5a323';
   ctx.font = `800 ${s(76)}px 'Shippori Mincho B1', serif`;
   ctx.fillText('Value Lantern', W/2, s(170));
 
-  // ── 吊り輪 ──
-  const ringY = lY - s(72);
+  // ── U字型 bail（SVGと同形状） ──
+  const armL = W/2 - lW * 0.20;
+  const armR = W/2 + lW * 0.20;
+  const bailTop = lY - s(70);
+
   ctx.beginPath();
-  ctx.ellipse(W/2, ringY, s(26), s(17), 0, 0, Math.PI * 2);
+  ctx.moveTo(armL, bailTop + s(22));
+  ctx.quadraticCurveTo(armL, bailTop, W/2, bailTop);
+  ctx.quadraticCurveTo(armR, bailTop, armR, bailTop + s(22));
   ctx.strokeStyle = '#c9952a';
   ctx.lineWidth = s(5);
   ctx.stroke();
 
-  // Bail arms
+  // bail接続ドット
+  [armL, armR].forEach(ax => {
+    ctx.beginPath();
+    ctx.arc(ax, bailTop + s(22), s(5), 0, Math.PI * 2);
+    ctx.fillStyle = '#c9952a';
+    ctx.fill();
+  });
+
+  // ── 垂直アーム（真っすぐ下へ） ──
+  const capTopY = lY - s(22);
   ctx.beginPath();
-  ctx.moveTo(W/2 - s(21), ringY + s(13));
-  ctx.lineTo(W/2 - lW * 0.26, lY - s(16));
-  ctx.moveTo(W/2 + s(21), ringY + s(13));
-  ctx.lineTo(W/2 + lW * 0.26, lY - s(16));
+  ctx.moveTo(armL, bailTop + s(22));
+  ctx.lineTo(armL, capTopY);
+  ctx.moveTo(armR, bailTop + s(22));
+  ctx.lineTo(armR, capTopY);
   ctx.strokeStyle = '#c9952a';
   ctx.lineWidth = s(4);
   ctx.stroke();
 
-  // ── Top cap（シンプルな1段バー） ──
-  const capH = s(18);
-  roundRect(ctx, lX - s(6), lY - capH, lW + s(12), capH, s(7));
-  ctx.fillStyle = 'rgba(160,115,22,0.92)';
+  // ── Top cap（SVGの凹み型） ──
+  // SVG: M30 18 Q48 13 66 18 L63 26 Q48 22 33 26 Z を拡大
+  const cw1 = lW * 0.80, cw2 = lW * 0.70;
+  const metalGrad = (x1, x2) => {
+    const g = ctx.createLinearGradient(x1, 0, x2, 0);
+    g.addColorStop(0,   '#7a5410'); g.addColorStop(0.4, '#c9952a'); g.addColorStop(1, '#7a5410');
+    return g;
+  };
+  ctx.beginPath();
+  ctx.moveTo(W/2 - cw1/2, capTopY);
+  ctx.quadraticCurveTo(W/2, capTopY - s(12), W/2 + cw1/2, capTopY);
+  ctx.lineTo(W/2 + cw2/2, lY);
+  ctx.quadraticCurveTo(W/2, lY - s(8), W/2 - cw2/2, lY);
+  ctx.closePath();
+  ctx.fillStyle = metalGrad(W/2 - cw1/2, W/2 + cw1/2);
+  ctx.globalAlpha = 0.92;
   ctx.fill();
+  ctx.globalAlpha = 1;
   ctx.strokeStyle = '#c9952a';
-  ctx.lineWidth = s(2.5);
+  ctx.lineWidth = s(2);
   ctx.stroke();
 
-  // ── Glass body glow ──
-  const glassGrad = ctx.createRadialGradient(W/2, lY + lH * 0.38, 0, W/2, lY + lH * 0.38, lW * 0.56);
-  glassGrad.addColorStop(0,   'rgba(255,185,65,0.13)');
+  // 通気スリット
+  [-s(26), 0, s(26)].forEach(ox => {
+    ctx.beginPath();
+    ctx.moveTo(W/2 + ox, capTopY + s(3));
+    ctx.lineTo(W/2 + ox, capTopY + s(16));
+    ctx.strokeStyle = 'rgba(0,0,0,0.5)';
+    ctx.lineWidth = s(5);
+    ctx.stroke();
+  });
+
+  // ── Glass body（内側グロー） ──
+  const glassGrad = ctx.createRadialGradient(W/2, lY + lH * 0.35, 0, W/2, lY + lH * 0.35, lW * 0.55);
+  glassGrad.addColorStop(0,   'rgba(255,190,70,0.13)');
   glassGrad.addColorStop(0.5, 'rgba(255,130,30,0.05)');
   glassGrad.addColorStop(1,   'rgba(0,0,0,0)');
   ctx.fillStyle = glassGrad;
   ctx.fillRect(lX, lY, lW, lH);
 
-  // ── Corner posts ──
-  const gL = ctx.createLinearGradient(lX, 0, lX + postW, 0);
-  gL.addColorStop(0,   'rgba(60,40,6,0.95)');
-  gL.addColorStop(0.5, 'rgba(201,149,42,0.92)');
-  gL.addColorStop(1,   'rgba(90,62,8,0.85)');
-  ctx.fillStyle = gL;
+  // ── Corner posts（SVG準拠の細さ） ──
+  const mkPost = (x) => {
+    const g = ctx.createLinearGradient(x, 0, x + postW, 0);
+    g.addColorStop(0, 'rgba(55,36,5,0.9)'); g.addColorStop(0.5, 'rgba(185,132,32,0.88)'); g.addColorStop(1, 'rgba(75,50,7,0.8)');
+    return g;
+  };
+  ctx.fillStyle = mkPost(lX);
   ctx.fillRect(lX, lY, postW, lH);
-
-  const gR = ctx.createLinearGradient(lX + lW - postW, 0, lX + lW, 0);
-  gR.addColorStop(0,   'rgba(90,62,8,0.85)');
-  gR.addColorStop(0.5, 'rgba(201,149,42,0.92)');
-  gR.addColorStop(1,   'rgba(60,40,6,0.95)');
-  ctx.fillStyle = gR;
+  ctx.fillStyle = mkPost(lX + lW - postW);
   ctx.fillRect(lX + lW - postW, lY, postW, lH);
 
-  // Outer frame
+  // Glass frame
   ctx.strokeStyle = '#c9952a';
-  ctx.lineWidth = s(2.5);
+  ctx.lineWidth = s(2);
   ctx.strokeRect(lX, lY, lW, lH);
+
+  // ── 中央縦分割線（SVGの center vertical divider） ──
+  ctx.beginPath();
+  ctx.moveTo(W/2, lY);
+  ctx.lineTo(W/2, lY + lH);
+  ctx.strokeStyle = 'rgba(201,149,42,0.28)';
+  ctx.lineWidth = s(1.5);
+  ctx.stroke();
+
+  // ── 中央横バンド1本（SVGの horizontal band） ──
+  const midY  = lY + lH / 2;
+  const midBH = s(7);
+  ctx.fillStyle = metalGrad(lX, lX + lW);
+  ctx.globalAlpha = 0.82;
+  ctx.fillRect(lX, midY - midBH/2, lW, midBH);
+  ctx.globalAlpha = 1;
+  ctx.beginPath();
+  ctx.moveTo(lX, midY - midBH/2); ctx.lineTo(lX + lW, midY - midBH/2);
+  ctx.moveTo(lX, midY + midBH/2); ctx.lineTo(lX + lW, midY + midBH/2);
+  ctx.strokeStyle = '#c9952a';
+  ctx.lineWidth = s(1);
+  ctx.stroke();
 
   // ── Sections ──
   const sectionDefs = [
@@ -1017,27 +1072,20 @@ function drawLantern(ctx, W, H, answers) {
   sectionDefs.forEach((sec, i) => {
     const secY = lY + secH * i;
 
-    // セクション間の横バンド
-    if (i > 0) {
-      const bH = s(12);
-      const bGrad = ctx.createLinearGradient(0, secY - bH/2, 0, secY + bH/2);
-      bGrad.addColorStop(0,   'rgba(90,62,8,0.5)');
-      bGrad.addColorStop(0.5, 'rgba(201,149,42,0.8)');
-      bGrad.addColorStop(1,   'rgba(90,62,8,0.5)');
-      ctx.fillStyle = bGrad;
-      ctx.fillRect(lX, secY - bH/2, lW, bH);
+    // セクション区切り（細線、中央バンドと重ならない i=2 はスキップ）
+    if (i > 0 && i !== 2) {
       ctx.beginPath();
-      ctx.moveTo(lX, secY - bH/2); ctx.lineTo(lX + lW, secY - bH/2);
-      ctx.moveTo(lX, secY + bH/2); ctx.lineTo(lX + lW, secY + bH/2);
-      ctx.strokeStyle = '#c9952a';
-      ctx.lineWidth = s(1.2);
+      ctx.moveTo(lX + postW, secY);
+      ctx.lineTo(lX + lW - postW, secY);
+      ctx.strokeStyle = 'rgba(201,149,42,0.28)';
+      ctx.lineWidth = s(1);
       ctx.stroke();
     }
 
     const padX = lX + postW + s(30);
     const maxW = lW - postW * 2 - s(60);
 
-    // 色ドット + セクション英語ラベル（小）のみ
+    // 色ドット + EN ラベル
     ctx.beginPath();
     ctx.arc(padX - s(16), secY + s(48), s(6), 0, Math.PI * 2);
     ctx.fillStyle = sec.color;
@@ -1050,7 +1098,7 @@ function drawLantern(ctx, W, H, answers) {
     ctx.fillText(sec.nameEn, padX, secY + s(52));
     ctx.globalAlpha = 1;
 
-    // ユーザーテキスト（メイン）
+    // ユーザーテキスト
     const text = answers[sec.key];
     if (text) {
       ctx.fillStyle = 'rgba(253,244,224,0.9)';
@@ -1063,41 +1111,41 @@ function drawLantern(ctx, W, H, answers) {
     }
   });
 
-  // ── Bottom cap ──
-  const botCapH = s(18);
-  roundRect(ctx, lX - s(6), lY + lH, lW + s(12), botCapH, s(7));
-  ctx.fillStyle = 'rgba(160,115,22,0.92)';
-  ctx.fill();
+  // ── Base cap（SVGの base cap）──
+  const baseBH = s(7);
+  ctx.fillStyle = metalGrad(lX, lX + lW);
+  ctx.globalAlpha = 0.88;
+  ctx.fillRect(lX, lY + lH, lW, baseBH);
+  ctx.globalAlpha = 1;
   ctx.strokeStyle = '#c9952a';
-  ctx.lineWidth = s(2.5);
-  ctx.stroke();
+  ctx.lineWidth = s(1.5);
+  ctx.strokeRect(lX, lY + lH, lW, baseBH);
 
-  // ── Oil reservoir ──
-  const resW1 = lW * 0.80, resW2 = lW * 0.56, resH = s(44);
-  const resY  = lY + lH + botCapH;
+  // ── Oil reservoir（SVGの曲線底部） ──
+  // SVG: M28 102 L68 102 L66 112 Q48 117 30 112 Z
+  const resTopY = lY + lH + baseBH;
+  const resW   = lW * 0.86;
+  const resH   = s(52);
   ctx.beginPath();
-  ctx.moveTo(W/2 - resW1/2, resY);
-  ctx.lineTo(W/2 + resW1/2, resY);
-  ctx.lineTo(W/2 + resW2/2, resY + resH);
-  ctx.lineTo(W/2 - resW2/2, resY + resH);
+  ctx.moveTo(W/2 - resW/2, resTopY);
+  ctx.lineTo(W/2 + resW/2, resTopY);
+  ctx.lineTo(W/2 + resW * 0.38, resTopY + resH);
+  ctx.quadraticCurveTo(W/2, resTopY + resH + s(12), W/2 - resW * 0.38, resTopY + resH);
   ctx.closePath();
-  const resGrad = ctx.createLinearGradient(W/2 - resW1/2, 0, W/2 + resW1/2, 0);
-  resGrad.addColorStop(0,   'rgba(55,38,6,0.9)');
-  resGrad.addColorStop(0.5, 'rgba(130,92,16,0.85)');
-  resGrad.addColorStop(1,   'rgba(55,38,6,0.9)');
+  const resGrad = ctx.createLinearGradient(W/2 - resW/2, 0, W/2 + resW/2, 0);
+  resGrad.addColorStop(0, 'rgba(50,33,5,0.9)'); resGrad.addColorStop(0.5, 'rgba(140,100,18,0.85)'); resGrad.addColorStop(1, 'rgba(50,33,5,0.9)');
   ctx.fillStyle = resGrad;
   ctx.fill();
   ctx.strokeStyle = '#c9952a';
   ctx.lineWidth = s(2);
   ctx.stroke();
 
-  // ── Foot ──
-  const footW = lW * 0.62, footY = resY + resH;
-  roundRect(ctx, W/2 - footW/2, footY, footW, s(14), s(6));
-  ctx.fillStyle = 'rgba(70,48,8,0.92)';
-  ctx.fill();
-  ctx.strokeStyle = '#c9952a';
-  ctx.lineWidth = s(2);
+  // ── Foot ellipse（SVG準拠） ──
+  const footY = resTopY + resH + s(8);
+  ctx.beginPath();
+  ctx.ellipse(W/2, footY, resW * 0.33, s(9), 0, 0, Math.PI * 2);
+  ctx.strokeStyle = 'rgba(201,149,42,0.55)';
+  ctx.lineWidth = s(2.5);
   ctx.stroke();
 
   // ── Footer date ──
