@@ -941,7 +941,7 @@ function drawLantern(ctx, W, H, answers) {
   const lW   = W * 0.86;
   const lH   = H * 0.70;
   const lX   = (W - lW) / 2;
-  const lY   = H * 0.20;   // ガラス本体の上端
+  const lY   = H * 0.235;  // ガラス本体の上端
   const secH = lH / 4;
   const postW = s(14);
 
@@ -949,7 +949,7 @@ function drawLantern(ctx, W, H, answers) {
   ctx.textAlign = 'center';
   ctx.fillStyle = '#f5a323';
   ctx.font = `800 ${s(76)}px 'Shippori Mincho B1', serif`;
-  ctx.fillText('Value Lantern', W/2, s(82));
+  ctx.fillText('Value Lantern', W/2, s(170));
 
   // ── 吊り輪 ──
   const ringY = lY - s(72);
@@ -1105,7 +1105,7 @@ function drawLantern(ctx, W, H, answers) {
   ctx.textAlign = 'center';
   ctx.fillStyle = 'rgba(253,244,224,0.2)';
   ctx.font = `300 ${s(22)}px 'Noto Sans JP', sans-serif`;
-  ctx.fillText(date, W/2, H - s(60));
+  ctx.fillText(date, W/2, H - s(120));
 }
 
 // ── Canvas helpers ──
