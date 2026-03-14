@@ -61,9 +61,9 @@ body::before{
 
 /* ── LANDING ── */
 #screen-landing{
-  justify-content:center;align-items:center;
+  align-items:center;
   text-align:center;gap:0;
-  padding-top:48px;padding-bottom:48px;
+  padding-top:64px;padding-bottom:64px;
 }
 .logo-lantern{margin-bottom:32px;}
 .landing-title{
@@ -127,6 +127,29 @@ body::before{
 }
 .btn-ghost:hover{color:var(--cream-60);}
 .btn-sm{padding:12px 18px;font-size:13px;}
+
+/* ── ABOUT ── */
+#screen-about{padding-top:48px;padding-bottom:48px;gap:0;}
+.about-parts{display:flex;flex-direction:column;gap:12px;margin:24px 0 20px;}
+.about-part{
+  background:var(--card);border:1px solid var(--border-dim);
+  border-radius:16px;padding:18px;
+}
+.about-part-head{
+  display:flex;align-items:baseline;gap:10px;margin-bottom:10px;
+}
+.about-part-en{font-size:11px;letter-spacing:.2em;font-weight:500;}
+.about-part-ja{
+  font-family:'Shippori Mincho B1',serif;
+  font-size:20px;font-weight:700;color:var(--cream);
+}
+.about-part-desc{font-size:13px;color:var(--cream-60);line-height:1.85;}
+.about-part-desc strong{color:var(--cream);font-weight:500;}
+.about-note{
+  font-size:13px;color:var(--cream-30);
+  border:1px solid var(--border-dim);border-radius:13px;
+  padding:14px 16px;line-height:1.7;margin-bottom:16px;
+}
 
 /* ── BACK / HEADER ── */
 .back-btn{
@@ -371,6 +394,8 @@ textarea::placeholder{color:var(--cream-15);}
     迷ったとき、自分に戻るための灯りを作りましょう。
   </div>
 
+  <button class="btn btn-ghost" style="font-size:13px;color:var(--amber);padding:4px 0;margin-bottom:4px;" onclick="showScreen('about')">バリューランタンとは？ →</button>
+
   <div class="time-badge">じっくりやると10〜15分　／　決まっている人は3分ほど</div>
 
   <div class="device-box">
@@ -381,6 +406,57 @@ textarea::placeholder{color:var(--cream-15);}
       <button class="btn btn-primary btn-sm" style="flex:1" onclick="startDiagnosis()">この端末で OK</button>
     </div>
   </div>
+</div>
+
+<!-- ══ SCREEN: ABOUT ══ -->
+<div id="screen-about" class="screen">
+  <button class="back-btn" onclick="showScreen('landing')">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    もどる
+  </button>
+
+  <div class="screen-title">バリューランタンとは？</div>
+  <div class="screen-sub">自分の価値観を「ランタン」の形に見える化するワークです。答えを出すためではなく、迷ったときに戻れる灯りを作ること。心理学者ブレネー・ブラウンの価値観研究をベースに、メンタリストDaiGoが紹介した手法です。</div>
+
+  <div class="about-parts">
+
+    <div class="about-part">
+      <div class="about-part-head" style="color:#f5a323">
+        <span class="about-part-en">FLAME</span>
+        <span class="about-part-ja">炎</span>
+      </div>
+      <p class="about-part-desc">ランタンの中心で燃える炎。<strong>自分が人生で最も大切にしたい価値観</strong>を2つまで書きます。多すぎると価値観どうしが矛盾して迷いやすくなるため、2つまでに絞るのが原則です。</p>
+    </div>
+
+    <div class="about-part">
+      <div class="about-part-head" style="color:#f5c842">
+        <span class="about-part-en">PROTECTION</span>
+        <span class="about-part-ja">プロテクション</span>
+      </div>
+      <p class="about-part-desc">炎を包み守るガラスの部分。<strong>その価値観を守り、強化してくれる行動・習慣・人物</strong>を書きます。運動、読書、特定の人との時間など。これにより日々の行動が「義務」ではなく「価値観を守るもの」として意味を持ちます。</p>
+    </div>
+
+    <div class="about-part">
+      <div class="about-part-head" style="color:#e8621a">
+        <span class="about-part-en">HANDLE</span>
+        <span class="about-part-ja">ハンドル</span>
+      </div>
+      <p class="about-part-desc">ランタンを持つ取っ手の部分。<strong>価値観からズレたときに自分に出るサイン</strong>を書きます。言葉がきつくなる、SNSに逃げる、など人それぞれ。このサインに気づくことで、自分を早めに軌道修正できます。</p>
+    </div>
+
+    <div class="about-part">
+      <div class="about-part-head" style="color:#ffd870">
+        <span class="about-part-en">LIGHT</span>
+        <span class="about-part-ja">ライト</span>
+      </div>
+      <p class="about-part-desc">ランタンが放つ光の部分。<strong>価値観に沿って行動できたと感じる瞬間・状況・感覚</strong>を書きます。「今、自分らしい」と感じたのはどんなとき？その感覚を言葉にしておくことで、炎（価値観）がより鮮明になります。</p>
+    </div>
+
+  </div>
+
+  <div class="about-note">完成したランタンは画像として保存できます。スマホの待ち受けにしておくと、迷ったときにすぐ取り出せます。</div>
+
+  <button class="btn btn-primary" onclick="showScreen('landing')" style="margin-top:8px;">トップに戻る</button>
 </div>
 
 <!-- ══ SCREEN: DEVICE SELECT ══ -->
